@@ -55,9 +55,7 @@ def writeManifest(output_file, hashDict):
 
     workbook = xlsxwriter.Workbook(output_file)
     worksheet = workbook.add_worksheet()
- 
     dictLen = len(hashDict)
- 
     worksheet.write(0,0, "Filename(s)")
     worksheet.write(0,1,"MD5 hash value")
     row = 1
@@ -71,7 +69,6 @@ def writeManifest(output_file, hashDict):
              progress.update(row)
     workbook.close()
     print()
-
 
 '''
 Function name: parseFiwalk()
@@ -94,17 +91,13 @@ def parseFiwalk(xml_file, outputFile):
     root = tree.getroot()
 
     for child in root:
-        #print(child.tag, child.attrib)
         for step_child in child:
             for grand_step_child in step_child:
                 if(grand_step_child.tag == fn_tag):
                     fname = grand_step_child.text
-                    #print(fname) 
                 if(grand_step_child.tag == hash_tag):
                     if(grand_step_child.attrib['type'] == 'md5'):
-                        #print("MD5 is %s" % grand_step_child.text)
                         mainDict[fname] = grand_step_child.text
-                #print("%s and %s" % (grand_step_child.tag, grand_step_child.text))
                 for great_grand_step_child in grand_step_child:
                     pass
     writeManifest(outputFile, mainDict) 
